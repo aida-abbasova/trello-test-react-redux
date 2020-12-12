@@ -1,10 +1,13 @@
-import './App.css';
+import store from './store/index';
+import { Provider } from 'react-redux';
+import BoardTrello from './pages/BoardTrello/BoardTrello';
+
 
 function App() {
   return (
-    <div >
-      HERE
-    </div>
+    <Provider store={store}>
+        <BoardTrello />
+    </Provider>
   );
 }
 
