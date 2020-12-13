@@ -16,9 +16,10 @@ const lists = useSelector((_) => _.list);
         <>
         HERE
         <div style={styles.container}>
-        {lists.map(list => {
+        
+        {lists && lists instanceof Array && lists.map(list => {
             return(
-            <List key={list.id} title={list.title} cards={list.cards}/>
+            <List key={list.id} title={list.title} cards={list.cards} listId={list.id}/>
             )
         })}
         <CommonAddButton buttonName='list' />
