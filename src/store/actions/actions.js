@@ -8,6 +8,7 @@ import {
   DELETE_CARD,
   DELETE_BOARD,
   GET_LIST,
+  SORT_AFTER_DRAG_AND_DROP,
 } from '../constants';
 
 export const {
@@ -18,6 +19,7 @@ export const {
     deleteCard,
     deleteBoard,
     getList,
+    sortAfterDragAndDrop,
 
 } = createActions(
     ADD_NEW_LIST,
@@ -27,4 +29,5 @@ export const {
     DELETE_CARD,
     DELETE_BOARD,
     GET_LIST,
+    SORT_AFTER_DRAG_AND_DROP,
 );

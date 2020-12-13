@@ -4,6 +4,7 @@ import {
     getList,
     addNewCard,
     deleteCard,
+    sortAfterDragAndDrop,
 } from '../actions/actions';
 
 import { handleActions } from 'redux-actions';
@@ -55,6 +56,36 @@ const initialState = [{
       console.log(newState,'newStatenewStatenewState')
       return newState;
   },
+   [sortAfterDragAndDrop]: (state, action) => {
+     const {
+       droppableIdStart, 
+       droppableIdEnd, 
+       droppableIndexStart, 
+       droppableIndexEnd, 
+       droppableId, 
+       type,
+      } = action.payload;
+      const newState= [...state];
+      if(type === 'list') {
+        const list = newState.splice(droppableIndexStart, 1);
+        newState.splice(droppableIndexEnd, 0, ...list);
+        return newState;
+      }
+      
+      console.log(newState,'newState')
+      if (droppableIdStart === droppableIdEnd) {
+        const list = state.find(list => droppableIdStart===list.id);
+        const card = list.cards.splice(droppableIndexStart, 1);
+        list.cards.splice(droppableIndexEnd, 0, ...card);
+      } 
+      if (droppableIdStart !== droppableIdEnd) {
+        const list = state.find(list => droppableIdStart===list.id);
+        const card = list.cards.splice(droppableIndexStart, 1);
+        const newList = state.find(list => droppableIdEnd === list.id);
+        newList.cards.splice(droppableIndexEnd, 0, ...card);
+      }  
+      return newState;
+   }
     
   }, initialState); 
 

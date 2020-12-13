@@ -5,23 +5,27 @@ import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch } from 'react-redux';
 import { deleteCard } from '../../store/actions/actions';
+import { Draggable } from 'react-beautiful-dnd';
 
-
-const CardTrello = ({title, cardId, listId}) => {
+const CardTrello = ({index, title, cardId, listId}) => {
   const dispatch = useDispatch();
     return(
-        <Card style={styles.cardContainer}>
-        <CardContent>
-          <Typography  color="textSecondary" gutterBottom>
-          {title}
-          </Typography>
-        </CardContent>
-        <DeleteIcon onClick={() => {
-                console.log(1)
+     <Draggable draggableId={cardId} index={index}>
+       {provided => (
+         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <Card style={styles.cardContainer}>
+               <CardContent>
+                  <Typography  color="textSecondary" gutterBottom>
+                    {title}
+                  </Typography>
+                </CardContent>
+              <DeleteIcon onClick={() => {
                 dispatch(deleteCard({cardId, listId}));
-                      
-            }} />
-      </Card>
+               }} />
+            </Card>
+          </div>
+       )}             
+      </Draggable>
     )
 };
 

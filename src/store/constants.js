@@ -5,3 +5,4 @@ export const DELETE_LIST = 'DELETE_LIST';
 export const DELETE_CARD = 'DELETE_CARD';
 export const DELETE_BOARD = 'DELETE_BOARD';
 export const GET_LIST = 'GET_LIST';
+export const SORT_AFTER_DRAG_AND_DROP = 'SORT_AFTER_DRAG_AND_DROP';
