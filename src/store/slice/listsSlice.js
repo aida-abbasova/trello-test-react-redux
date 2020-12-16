@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { concat } from 'lodash';
-
+import concat from 'lodash/concat';
+import filter from 'lodash/filter';
 
 const slice = createSlice({
   name: 'lists',
@@ -17,6 +17,10 @@ const slice = createSlice({
     getList(state,action) {
       const boardId = action.payload;
       return state.filter(list => list.boardId === boardId);
+    },
+    deleteBoardsList(state,action) {
+      const boardId = action.payload;
+      return filter(state, (item) => item.boardId !== boardId);;
     },
     sortAfterDragAndDrop(state, action) {
       const {
@@ -40,4 +44,9 @@ const slice = createSlice({
 
 export const listsName = slice.name;
 export const listsReducer = slice.reducer;
-export const { addList, deleteList, getList, sortAfterDragAndDrop } = slice.actions;
+export const { addList, 
+               deleteList, 
+               getList, 
+               sortAfterDragAndDrop, 
+               deleteBoardsList, 
+              } = slice.actions;

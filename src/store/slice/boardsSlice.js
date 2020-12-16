@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { concat } from 'lodash';
+import concat from 'lodash/concat';
+import filter from 'lodash/filter';
 
 
 const slice = createSlice({
@@ -9,11 +10,14 @@ const slice = createSlice({
     addBoards(state, action) {
       const { id, title } = action.payload;
       return concat(state, { id, title })
-    
+    },
+    deleteBoard(state, action) {
+      const id = action.payload;
+      return filter(state, (item) => item.id !== id);
     },
   }
 })
 
 export const boardsName = slice.name;
 export const boardsReducer = slice.reducer;
-export const { addBoards } = slice.actions;
+export const { addBoards, deleteBoard } = slice.actions;

@@ -4,14 +4,16 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import { addBoards } from '../../store/slice/boardsSlice';
+import { addBoards, deleteBoard } from '../../store/slice/boardsSlice';
+import { deleteBoardsList } from '../../store/slice/listsSlice';
 import Input from '@material-ui/core/Input';
 import { Link } from "react-router-dom";
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 import {
     createStyles,
     makeStyles,
 } from "@material-ui/core/styles";
-
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -24,12 +26,13 @@ const useStyles = makeStyles(() =>
         },
         containerCard: {
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             width: 300,
             height: 70,
             backgroundColor: '#B0C4DE',
             marginBottom: 20,
-            alignItems: 'center',
         },
         inputContainer: {
             display: 'flex',
@@ -46,6 +49,13 @@ const useStyles = makeStyles(() =>
         },
         link: {
             textDecoration: 'none',
+        },
+        icon: {
+            color: '#DCDCDC',
+        },
+        containerContent: {
+            width: 275,
+            height: '100%',
         }
     })
 );
@@ -55,34 +65,43 @@ const Home = () => {
     const [isInputShown, setIsInputShown] = useState(false);
     const [isBoardTitle, setIsBoardTitle] = useState('');
     const dispatch = useDispatch();
-    const boards = useSelector((_) => _.boards);
+    const { boards }= useSelector((_) => _);
     const valueForId = Date.now().toString();
-    console.log(typeof valueForId)
-
 
     return (
         <div className={classes.container}>
             <Typography variant="h6" component="h2">
                 Персональные доски
-        </Typography>
+            </Typography>
             {boards && boards.map(board => (
-                <Link
-                    key={board.id}
-                    className={classes.link}
-                    to={{
-                        pathname: `/${board.id}`,
-                        propsBoard: { boardId: board.id, lists: board.lists }
-                    }}
-                    lists={boards.lists}
-                >
-                    <Card className={classes.containerCard}>
-                        <CardContent>
-                            <Typography>
-                                {board.title}
-                            </Typography>
+                    <Card key={board.id} className={classes.containerCard}>
+                        <CardContent className={classes.conteinerContent}>
+                        <Link
+                            className={classes.link}
+                            to={{
+                            pathname: `/${board.id}`,
+                            propsBoard: { boardId: board.id, lists: board.lists }
+                            }}
+                            lists={boards.lists}
+                            >
+                            <div className={classes.conteinerContent}>   
+                                <Typography>
+                                    {board.title}
+                                </Typography>
+                                </div> 
+                            </Link>
                         </CardContent>
+                        <IconButton  
+                            onClick={() => {
+                                dispatch(deleteBoard(board.id))
+                                dispatch(deleteBoardsList(board.id));
+                            }}>
+                            <DeleteIcon
+                                className={classes.icon}
+                            />
+                    </IconButton>
                     </Card>
-                </Link>
+              
             ))}
             {isInputShown ? (
                 <div className={classes.inputContainer}>

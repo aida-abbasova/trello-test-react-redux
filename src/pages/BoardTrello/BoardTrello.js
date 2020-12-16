@@ -36,12 +36,22 @@ const allLists = useSelector((_) => _.lists);
 const lists = allLists.filter(lists => lists.boardId === boardId);
 
 
-const onDragEnd=(result) => {
-    const { destination, source,draggableId, type, } = result;
-    console.log(destination, source,draggableId, type,'destination, source,draggableId, type,')
+const onDragEnd = async (result) => {
+    const { 
+        destination, 
+        source,
+        draggableId, 
+        type, 
+    } = result;
+
     if(!destination) {
         return null;
     }
+
+    await new Promise((resolve) => {
+        setTimeout(() => resolve(), 10);
+      });
+
     if (type === 'list') {
         dispatch(sortAfterDragAndDrop({
             droppableIdStart: source.droppableId, 
@@ -60,9 +70,8 @@ const onDragEnd=(result) => {
             draggableId,
             type,
         }));
-    }
-
-}
+    };
+};
 
     return(
         <DragDropContext onDragEnd={onDragEnd}>
@@ -71,9 +80,7 @@ const onDragEnd=(result) => {
             Your personal board
         </Typography>
         <Droppable droppableId='droppableIdList' direction="horizontal" type='list'>
-            {provided => {
-                console.log(provided,'providedprovidedprovided')
-                return (
+            {provided => (
                 <div className={classes.listsContainer} {...provided.droppableProps} ref={provided.innerRef}>
                 {lists && lists instanceof Array && lists.map((list, index) => (
                     <Draggable key={list.id} index={index} draggableId={`list${list.id}`}>
@@ -88,7 +95,7 @@ const onDragEnd=(result) => {
                 {provided.placeholder}
                 <CommonAddButton buttonName='list' boardId={boardId}/>
                 </div>
-            )}}
+            )}
         </Droppable>
         </div>
         </DragDropContext>
